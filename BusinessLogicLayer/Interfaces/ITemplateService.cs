@@ -10,10 +10,10 @@ namespace BusinessLogicLayer.Interfaces
 {
     public interface ITemplateService
     {
-        public Task<IEnumerable<Template>> GetAllTemplate();
-        public Task<Template> GetTemplateById(int id);
-        public Task<Template> DeleteTemplate(int id);
-        public Task<Template> UpdateTemplate(Template template);
-        public Task<Template> AddTemplate(TemplateDTO template);
+        public Task<IEnumerable<TemplateDTO>> GetAllTemplate();
+        public Task<TemplateDTO> GetTemplateById(Guid uid);
+        public Task<TemplateDTO> DeleteTemplate(Guid uid);
+        public Task<TemplateDTO> UpdateTemplate(TemplateDTO template);
+        public Task<TemplateDTO> AddTemplate(TemplateDTO template);
     }
 }

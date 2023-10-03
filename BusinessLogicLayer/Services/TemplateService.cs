@@ -22,34 +22,33 @@ namespace BusinessLogicLayer.Services
             _mapper = new Mapper(config);
             _templateRepository = templateRepository;
         }
-        public async Task<Template> AddTemplate(TemplateDTO templateDto)
+        public async Task<TemplateDTO> AddTemplate(TemplateDTO templateDto)
         {
             var template = _mapper.Map<Template>(templateDto);
             await _templateRepository.AddTemplateAsync(template);
-            return template;
+            return _mapper.Map<TemplateDTO>(template);
         }
-
-        public async Task<Template> DeleteTemplate(int id)
+        public async Task<TemplateDTO> DeleteTemplate(Guid uid)
         {
-            var template = await _templateRepository.GetTemplateByIdAsync(id);
+            var template = await _templateRepository.GetTemplateByIdAsync(uid);
             await _templateRepository.DeleteTemplateAsync(template);
-            return template;
+            return _mapper.Map<TemplateDTO>(template);
         }
-
-        public async Task<Template> GetTemplateById (int id)
+        public async Task<TemplateDTO> GetTemplateById (Guid uid)
         {
-            return await _templateRepository.GetTemplateByIdAsync(id);
+            return _mapper.Map<TemplateDTO>(await _templateRepository.GetTemplateByIdAsync(uid));
         }
-
-        public async Task<Template> UpdateTemplate(Template template)
+        public async Task<TemplateDTO> UpdateTemplate(TemplateDTO templateDto)
         {
-            await _templateRepository.UpdateTemplateAsync(template);
-            return template;
+            var target = await _templateRepository.GetTemplateByIdAsync(templateDto.uid);
+            _mapper.Map(templateDto , target);
+            await _templateRepository.UpdateTemplateAsync(target);
+            return _mapper.Map<TemplateDTO>(target);
         }
-
-        public async Task<IEnumerable<Template>> GetAllTemplate()
+        public async Task<IEnumerable<TemplateDTO>> GetAllTemplate()
         {
-            return await _templateRepository.GetAllTemplateAsync();
+            var templates = await _templateRepository.GetAllTemplateAsync();
+            return _mapper.Map<IEnumerable<TemplateDTO>>(templates);
         }
     }
 }

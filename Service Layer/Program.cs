@@ -16,6 +16,7 @@ builder.Services.AddControllers();
 //main services 
 services.AddDbContext<AppDbContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+services.AddAutoMapper(typeof(Program));
 //repository injection
 services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 services.AddScoped<ITemplateRepository, TemplateRepository>();
