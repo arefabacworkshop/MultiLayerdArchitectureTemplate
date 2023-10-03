@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.BaseDatas
+namespace BusinessLogicLayer.BaseDTOs
 {
-    public abstract class ExposableBaseData
+    public abstract class BaseDTO
     {
-        public int id { get; set; }
         public Guid uid { get; set; }
     }
 }

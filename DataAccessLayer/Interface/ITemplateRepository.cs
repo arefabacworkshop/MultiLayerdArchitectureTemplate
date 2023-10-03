@@ -9,7 +9,7 @@ namespace DataAccessLayer.Interface
 {
     public interface ITemplateRepository
     {
-        Task<Template> GetTemplateByIdAsync(int id);
+        Task<Template> GetTemplateByIdAsync(Guid id);
         Task<IEnumerable<Template>> GetAllTemplateAsync();
         Task AddTemplateAsync(Template entity);
         Task UpdateTemplateAsync(Template entity);

@@ -30,9 +30,9 @@ namespace DataAccessLayer.Repositories
            return await _repo.GetAllAsync();
         }
 
-        public async Task<Template> GetTemplateByIdAsync(int id)
+        public async Task<Template> GetTemplateByIdAsync(Guid uid)
         {
-            return await _repo.GetByIdAsync(id);
+            return await _repo.GetByIdAsync(uid);
         }
 
         public async Task UpdateTemplateAsync(Template entity)

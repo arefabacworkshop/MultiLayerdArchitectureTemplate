@@ -14,7 +14,11 @@ namespace BusinessLogicLayer.MappingProfiles
         public TemplateMapper()
         {
             CreateMap<TemplateDTO, Template>()
-            .ForMember(dest => dest.name, opt => opt.MapFrom(src => src.name));
+            .ForMember(dest => dest.name, opt => opt.MapFrom(src => src.name))
+            .ForMember(dest => dest.uid, opt => opt.MapFrom(src => src.uid));
+            CreateMap<Template,TemplateDTO >()
+            .ForMember(dest => dest.name, opt => opt.MapFrom(src => src.name))
+            .ForMember(dest => dest.uid, opt => opt.MapFrom(src => src.uid));
         }
     }
 }

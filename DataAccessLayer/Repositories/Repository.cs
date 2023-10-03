@@ -20,9 +20,9 @@ namespace DataAccessLayer.Repositories
             _dbSet = context.Set<TEntity>();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(Guid uid)
         {
-            return await _dbSet.FindAsync(id);
+            return await _dbSet.FindAsync(uid);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
