@@ -15,7 +15,8 @@ var services = builder.Services;
 builder.Services.AddControllers();
 //main services 
 services.AddDbContext<AppDbContext>(options =>
-               options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+    b => b.MigrationsAssembly("DataAccessLayer")));
 services.AddAutoMapper(typeof(Program));
 //repository injection
 services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

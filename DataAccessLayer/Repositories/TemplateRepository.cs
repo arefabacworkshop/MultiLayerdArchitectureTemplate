@@ -17,6 +17,7 @@ namespace DataAccessLayer.Repositories
         }
         public async Task AddTemplateAsync(Template entity)
         {
+
              await _repo.AddAsync(entity);
         }
 

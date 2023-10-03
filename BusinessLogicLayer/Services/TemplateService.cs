@@ -25,6 +25,7 @@ namespace BusinessLogicLayer.Services
         public async Task<TemplateDTO> AddTemplate(TemplateDTO templateDto)
         {
             var template = _mapper.Map<Template>(templateDto);
+            template.uid = Guid.NewGuid();
             await _templateRepository.AddTemplateAsync(template);
             return _mapper.Map<TemplateDTO>(template);
         }
