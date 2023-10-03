@@ -32,6 +32,7 @@ namespace BusinessLogicLayer.Services
         public async Task<TemplateDTO> DeleteTemplate(Guid uid)
         {
             var template = await _templateRepository.GetTemplateByIdAsync(uid);
+            if (template == null) return null;
             await _templateRepository.DeleteTemplateAsync(template);
             return _mapper.Map<TemplateDTO>(template);
         }

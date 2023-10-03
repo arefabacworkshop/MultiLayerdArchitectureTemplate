@@ -22,15 +22,22 @@ namespace Service_Layer.Controllers
         [HttpGet("{uid?}")]
         public async Task<IActionResult> get(Guid? uid)
         {
-            if(uid == null)
-            return Ok(await _templateService.GetAllTemplate());
-            else return Ok(await _templateService.GetTemplateById((Guid)uid));
+            if (uid == null)
+                return Ok(await _templateService.GetAllTemplate());
+            else {
+                var item = await _templateService.GetTemplateById((Guid)uid);
+                if(item == null)return NotFound("item not found!");
+                else return Ok(item);
+            }
         }
-        [HttpDelete("{uid?}")]
-        public async Task<IActionResult> delete(Guid? uid)
+        [HttpDelete("{uid}")]
+        public async Task<IActionResult> delete(Guid uid)
         {
             if (uid == null) return BadRequest("no id");
-            return Ok(await _templateService.DeleteTemplate((Guid)uid));
+            var result = await _templateService.DeleteTemplate((Guid)uid);
+            if (result != null)
+                return Ok(result);
+            else return NotFound("item doesnt exist");
         }
         [HttpPut]
         public async Task<IActionResult> update([FromBody]TemplateDTO model)
@@ -41,6 +48,7 @@ namespace Service_Layer.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]TemplateDTO model)
         {
+            if (model.uid == null) return BadRequest("there is no uid in the model");
             var result = await _templateService.AddTemplate(model);
             return Ok(result);
         }

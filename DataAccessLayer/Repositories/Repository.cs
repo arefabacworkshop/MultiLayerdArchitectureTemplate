@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Entities;
+﻿using DataAccessLayer.BaseDatas;
+using DataAccessLayer.Entities;
 using DataAccessLayer.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseData
     {
         private readonly AppDbContext _context;
         private readonly DbSet<TEntity> _dbSet;
@@ -22,7 +23,7 @@ namespace DataAccessLayer.Repositories
 
         public async Task<TEntity> GetByIdAsync(Guid uid)
         {
-            return await _dbSet.FindAsync(uid);
+            return await _dbSet.SingleOrDefaultAsync(e => e.uid == uid);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
