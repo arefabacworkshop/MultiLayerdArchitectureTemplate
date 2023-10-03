@@ -1,12 +1,31 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore.Hosting;
+using AutoMapper;
+using DataAccessLayer.Interface;
+using DataAccessLayer.Repositories;
+using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using DataAccessLayer.Entities;
 
+var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+//main services 
+services.AddDbContext<AppDbContext>(options =>
+               options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+//repository injection
+services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+services.AddScoped<ITemplateRepository, TemplateRepository>();
+//service injection
+services.AddTransient<ITemplateService, TemplateService>();
+
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -16,6 +35,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+
+app.UseStaticFiles();
 app.UseAuthorization();
 
 app.MapControllers();
