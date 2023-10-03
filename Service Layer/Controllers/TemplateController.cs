@@ -3,10 +3,14 @@ using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Validations.Rules;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 
 namespace Service_Layer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class TemplateController : ControllerBase
     {
@@ -15,27 +19,27 @@ namespace Service_Layer.Controllers
         {
             _templateService = tempService;
         }
-        [HttpGet("{id?}")]
-        public async Task<IActionResult> get (int? id)
+        [HttpGet("{uid?}")]
+        public async Task<IActionResult> get(Guid? uid)
         {
-            if(id == null)
+            if(uid == null)
             return Ok(await _templateService.GetAllTemplate());
-            else return Ok(await _templateService.GetTemplateById((int)id));
+            else return Ok(await _templateService.GetTemplateById((Guid)uid));
         }
-        [HttpDelete("{id?}")]
-        public async Task<IActionResult> delete(int? id)
+        [HttpDelete("{uid?}")]
+        public async Task<IActionResult> delete(Guid? uid)
         {
-            if (id == null) return BadRequest("no id");
-            return Ok(await _templateService.DeleteTemplate((int)id));
+            if (uid == null) return BadRequest("no id");
+            return Ok(await _templateService.DeleteTemplate((Guid)uid));
         }
         [HttpPut]
-        public async Task<IActionResult> update(Template model)
+        public async Task<IActionResult> update([FromBody]TemplateDTO model)
         {
             var result = await _templateService.UpdateTemplate(model);
             return Ok(result);
         }
-        [HttpGet("{id?}")]
-        public async Task<IActionResult> Add(TemplateDTO model)
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody]TemplateDTO model)
         {
             var result = await _templateService.AddTemplate(model);
             return Ok(result);
